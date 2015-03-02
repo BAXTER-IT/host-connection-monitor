@@ -3,69 +3,70 @@
  */
 package com.baxter.connection.monitor.host.jmx.mbean.sample;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
 
-import javax.management.InstanceNotFoundException;
-import javax.management.MalformedObjectNameException;
 import javax.management.Notification;
 import javax.management.NotificationListener;
 
 import com.baxter.connection.monitor.jmx.ConnectionMonitorClient;
 import com.baxter.connection.monitor.jmx.ConnectionMonitorMXBean;
-import com.baxter.connection.monitor.jmx.ConnectionNotification;
+import com.baxter.connection.monitor.jmx.ConnectionStatusNotification;
+import com.baxter.connection.monitor.jmx.JMXService;
+import com.baxter.connection.monitor.jmx.RemoteJMXService;
 
 /**
- * Sample client for JMX connection monitor
- * @author Goszi, Bela
- *
+ * The sample Host Connection Monitor client application.
+ * @author xpdev
+ * @sinceDevelopmentVersion
  */
 public class SamplePingerClient
 {
 
-  public static void main(String[] args) throws IOException, MalformedObjectNameException, InstanceNotFoundException
+  public static void main(final String[] args) throws Exception
   {
-	String jmxHost = args[0];
-	int jmxPort = Integer.parseInt(args[1]);
+	final String jmxHost = args[0];
+	final int jmxPort = Integer.parseInt(args[1]);
 
-	//initialize connection monitor client
-	final ConnectionMonitorClient connectionMonitor = new ConnectionMonitorClient(jmxHost, jmxPort);
-	//queries registered connections
-	List<ConnectionMonitorMXBean> queryConnections = connectionMonitor.queryConnections();
-	//print them out
-	for (final ConnectionMonitorMXBean monitor : queryConnections)
+	// Instantiate connection monitor client.
+	// This is the main communication point for the client application.
+	final JMXService jmxService = new RemoteJMXService(jmxHost, jmxPort);
+	final ConnectionMonitorClient connectionMonitorClient = new ConnectionMonitorClient(jmxService);
+	// List all the monitors registered on remote server
+	final List<ConnectionMonitorMXBean> monitors = connectionMonitorClient.queryConnections();
+	// Here we iterate over the individual monitors and subscribe for their status change notifications
+	for (final ConnectionMonitorMXBean monitor : monitors)
 	{
-	  connectionMonitor.addNotificationListener(monitor.getMonitorType(), monitor.getConnectionName(), new NotificationListener()
-	  {
-
-		@Override
-		public void handleNotification(Notification notification, Object handback)
-		{
-		  if (notification instanceof ConnectionNotification)
+	  connectionMonitorClient.addNotificationListener(monitor.getMonitorType(), monitor.getConnectionName(),
+		  new NotificationListener()
 		  {
-			ConnectionNotification cn = (ConnectionNotification) notification;
-
-			System.out.printf("Received connection notification [%3$s ]from %1$s@%2$s\n", monitor.getConnectionName(),
-			    monitor.getMonitorType(), cn.getConnection());
-		  }
-		}
-	  });
+		    @Override
+		    public void handleNotification(final Notification notification, final Object handback)
+		    {
+			  if (notification instanceof ConnectionStatusNotification)
+			  {
+			    final ConnectionStatusNotification csn = (ConnectionStatusNotification) notification;
+			    System.out.printf("Received connection status notification from %1$s@%2$s: %3$s\n", monitor.getConnectionName(),
+			        monitor.getMonitorType(), csn);
+			  }
+		    }
+		  });
 	}
-	//add connection listener
-	connectionMonitor.addNotificationListenerToAll(new NotificationListener()
+	// Here is another example of notification listener to subscribe globally
+	connectionMonitorClient.addNotificationListenerToAll(new NotificationListener()
 	{
 	  @Override
-	  public void handleNotification(Notification notification, Object handback)
+	  public void handleNotification(final Notification notification, final Object handback)
 	  {
-		if (notification instanceof ConnectionNotification)
+		if (notification instanceof ConnectionStatusNotification)
 		{
-		  ConnectionNotification cn = (ConnectionNotification) notification;
-		  System.out.println("Received ConnectionNotification for all: " + cn.getConnection().toString());
+		  final ConnectionStatusNotification csn = (ConnectionStatusNotification) notification;
+		  System.out.printf("Received ConnectionNotification (for all): %1$s\n", csn);
 		}
 	  }
 	});
 	//wait for exit
 	new Timer("wait for...");
   }
+
 }
