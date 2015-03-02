@@ -6,6 +6,7 @@ package com.baxter.connection.monitor.host.jmx.mbean;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.baxter.connection.monitor.Status;
 import com.baxter.connection.monitor.host.HostConnection;
 import com.baxter.connection.monitor.host.HostStatus;
 import com.baxter.connection.monitor.jmx.ConnectionMonitorMXBean;
@@ -16,7 +17,7 @@ import com.baxter.connection.monitor.jmx.mbean.AbstractConnectionMonitor;
  * @author xpdev
  * @sinceDevelopmentVersion
  */
-public class HostConnectionMonitor extends AbstractConnectionMonitor<HostConnection> implements ConnectionMonitorMXBean
+public class HostConnectionMonitor extends AbstractConnectionMonitor implements ConnectionMonitorMXBean
 {
 
   /**
@@ -27,7 +28,7 @@ public class HostConnectionMonitor extends AbstractConnectionMonitor<HostConnect
   /**
    * Last known host connection status.
    */
-  private HostStatus lastStatus;
+  private Status lastStatus;
 
   public HostConnectionMonitor(final HostConnection connection, final long pingInterval)
   {
@@ -67,7 +68,7 @@ public class HostConnectionMonitor extends AbstractConnectionMonitor<HostConnect
 	{
 	  logger.trace("Monitoring the {}", getConnection());
 	  // Get real time status
-	  final HostStatus newStatus = getConnection().getStatus();
+	  final Status newStatus = getConnection().getStatus();
 	  if (lastStatus == null || !newStatus.equals(lastStatus))
 	  { // The status has changed, fire a notification and save new status
 		logger.debug("Monitoring status changed from {} to {}", lastStatus, newStatus);
