@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.baxter.connection</groupId>
+		<artifactId>host-connection-monitor</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>host-connection-monitor-mbean</artifactId>
+
+	<name>Baxter Host Connection Monitor MBean</name>
+	<description>MBean implementation for Host Connection Monitor.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>host-connection-monitor-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.baxter.connection</groupId>
+			<artifactId>connection-monitor-mbean</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>
