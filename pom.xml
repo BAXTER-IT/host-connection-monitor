@@ -163,7 +163,7 @@
 
   <properties>
     <java.version>1.7</java.version>
-    <connection-monitor.version>1.1-SNAPSHOT</connection-monitor.version>
+    <connection-monitor.version>1.1</connection-monitor.version>
   </properties>
 
 </project>

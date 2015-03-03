@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.baxter.connection.monitor.host.jmx.mbean.sample;
+package com.baxter.connection.monitor.host.sample;
 
 import java.util.List;
 import java.util.Timer;
@@ -20,7 +20,7 @@ import com.baxter.connection.monitor.jmx.RemoteJMXService;
  * @author xpdev
  * @sinceDevelopmentVersion
  */
-public class SamplePingerClient
+public class SampleHostConnectionMonitorClient
 {
 
   public static void main(final String[] args) throws Exception

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.baxter.connection.monitor.host.jmx.mbean.sample;
+package com.baxter.connection.monitor.host.sample;
 
 import com.baxter.connection.monitor.host.HostConnection;
 import com.baxter.connection.monitor.host.jmx.mbean.HostConnectionMonitor;
@@ -11,7 +11,7 @@ import com.baxter.connection.monitor.host.jmx.mbean.HostConnectionMonitor;
  * @author xpdev
  * @sinceDevelopmentVersion
  */
-public class SamplePingerServer
+public class SampleHostConnectionMonitorServer
 {
 
   public static void main(String[] args)
