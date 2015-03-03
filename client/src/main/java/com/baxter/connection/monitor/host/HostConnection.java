@@ -74,4 +74,10 @@ public class HostConnection implements Connection
 	}
   }
 
+  @Override
+  public String toString()
+  {
+	return String.format("HostConnection to %1$s with timeout %2$s", hostName, pingTimeout);
+  }
+
 }

@@ -25,8 +25,8 @@ public class SampleHostConnectionMonitorClient
 
   public static void main(final String[] args) throws Exception
   {
-	final String jmxHost = args[0];
-	final int jmxPort = Integer.parseInt(args[1]);
+	final String jmxHost = "localhost";
+	final int jmxPort = 1333;
 
 	// Instantiate connection monitor client.
 	// This is the main communication point for the client application.
