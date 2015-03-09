@@ -33,7 +33,7 @@ public class SampleHostConnectionMonitorClient
 	final JMXService jmxService = new RemoteJMXService(jmxHost, jmxPort);
 	final ConnectionMonitorClient connectionMonitorClient = new ConnectionMonitorClient(jmxService);
 	// List all the monitors registered on remote server
-	final List<ConnectionMonitorMXBean> monitors = connectionMonitorClient.queryConnections();
+	final List<ConnectionMonitorMXBean> monitors = connectionMonitorClient.getConnectionMonitors();
 	// Here we iterate over the individual monitors and subscribe for their status change notifications
 	for (final ConnectionMonitorMXBean monitor : monitors)
 	{
